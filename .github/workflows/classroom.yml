@@ -1,0 +1,283 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: MAC Text
+      id: mac-text
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: MAC Text
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          -1
+          n
+        expected-output: MAC Manufacturer Program
+        comparison-method: contains
+        timeout: 1
+        max-score: 1
+    - name: Dashes Text
+      id: dashes-text
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Dashes Text
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          -11
+          n
+        expected-output: "------------------------"
+        comparison-method: contains
+        timeout: 1
+        max-score: 1
+    - name: Prompt Text
+      id: prompt-text
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Prompt Text
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          -111
+          n
+        expected-output: 'Enter the MAC address (format as XX:XX:XX:XX:XX:XX): '
+        comparison-method: contains
+        timeout: 1
+        max-score: 1
+    - name: Oracle Test Case
+      id: oracle-test-case
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Oracle Test Case
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          00:00:17:12:34:45
+          n
+        expected-output: For 00:00:17:12:34:45 the MAC manufacturer is Oracle.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Intel
+      id: intel
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Intel
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          00:07:E9:00:00:0C
+          n
+        expected-output: For 00:07:E9:00:00:0C the MAC manufacturer is Intel Corporation.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Microsoft
+      id: microsoft
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Microsoft
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          04:27:28:0A:1B:2C
+          n
+        expected-output: For 04:27:28:0A:1B:2C the MAC manufacturer is Microsoft Corporation.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Apple
+      id: apple
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Apple
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          04:26:65:11:22:33
+          n
+        expected-output: For 04:26:65:11:22:33 the MAC manufacturer is Apple, Inc.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Huawei
+      id: huawei
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Huawei
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          04:33:89:AA:BB:CC
+          n
+        expected-output: For 04:33:89:AA:BB:CC the MAC manufacturer is Huawei Technologies
+          Co.,Ltd.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Cisco
+      id: cisco
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Cisco
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          00:00:0C:DD:EE:FF
+          n
+        expected-output: For 00:00:0C:DD:EE:FF the MAC manufacturer is Cisco Systems,
+          Inc.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Not Valid Value
+      id: not-valid-value
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Not Valid Value
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          21
+          n
+        expected-output: For 21 the MAC manufacturer is IMPROPER FORMAT.
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Repeat Text
+      id: repeat-text
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Repeat Text
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          d
+          d
+          n
+        expected-output: 'Repeat (y=yes, n=no): '
+        comparison-method: contains
+        timeout: 1
+        max-score: 1
+    - name: Repeat Text - Invalid Option
+      id: repeat-text-invalid-option
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Repeat Text - Invalid Option
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          J
+          J
+          n
+        expected-output: 'Not a valid option. Repeat (y=yes, n=no): '
+        comparison-method: contains
+        timeout: 1
+        max-score: 1
+    - name: Loop executes once
+      id: loop-executes-once
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Loop executes once
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          04:26:65:AB:CD:EF
+          n
+        expected-output: "For 04:26:65:AB:CD:EF the MAC manufacturer is Apple, Inc.\n\nRepeat
+          (y=yes, n=no): \n\nThe program has ended."
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Loop executes 2 Times
+      id: loop-executes-2-times
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Loop executes 2 Times
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          00:00:0C:11:AA:BB
+          y
+          00:07:E9:11:22:AA
+          n
+        expected-output: "For 00:00:0C:11:AA:BB the MAC manufacturer is Cisco Systems,
+          Inc.\n\nRepeat (y=yes, n=no): \nEnter the MAC address (format as XX:XX:XX:XX:XX:XX):
+          For 00:07:E9:11:22:AA the MAC manufacturer is Intel Corporation.\n\nRepeat
+          (y=yes, n=no): \n\nThe program has ended."
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: Loop executes 4 Times
+      id: loop-executes-4-times
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Loop executes 4 Times
+        setup-command: ''
+        command: python exercise7.py
+        input: |-
+          00:0C
+          y
+          00:00:0C:AD:BC:FE
+          y
+          00:07:E9:00:11:2B
+          y
+          00:07:E9:1A:BB:FA
+          y
+          04:27:28:AF:FA:AB
+          n
+        expected-output: "Enter the MAC address (format as XX:XX:XX:XX:XX:XX): For
+          00:0C the MAC manufacturer is IMPROPER FORMAT.\n\nRepeat (y=yes, n=no):
+          \nEnter the MAC address (format as XX:XX:XX:XX:XX:XX): For 00:00:0C:AD:BC:FE
+          the MAC manufacturer is Cisco Systems, Inc.\n\nRepeat (y=yes, n=no): \nEnter
+          the MAC address (format as XX:XX:XX:XX:XX:XX): For 00:07:E9:00:11:2B the
+          MAC manufacturer is Intel Corporation.\n\nRepeat (y=yes, n=no): \nEnter
+          the MAC address (format as XX:XX:XX:XX:XX:XX): For 00:07:E9:1A:BB:FA the
+          MAC manufacturer is Intel Corporation.\n\nRepeat (y=yes, n=no): \nEnter
+          the MAC address (format as XX:XX:XX:XX:XX:XX): For 04:27:28:AF:FA:AB the
+          MAC manufacturer is Microsoft Corporation.\n\nRepeat (y=yes, n=no): \n\nThe
+          program has ended."
+        comparison-method: contains
+        timeout: 1
+        max-score: 4
+    - name: PyTest Running
+      id: pytest-running
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: PyTest Running
+        setup-command: sudo -H pip3 install pytest
+        command: pytest
+        timeout: 5
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        MAC-TEXT_RESULTS: "${{steps.mac-text.outputs.result}}"
+        DASHES-TEXT_RESULTS: "${{steps.dashes-text.outputs.result}}"
+        PROMPT-TEXT_RESULTS: "${{steps.prompt-text.outputs.result}}"
+        ORACLE-TEST-CASE_RESULTS: "${{steps.oracle-test-case.outputs.result}}"
+        INTEL_RESULTS: "${{steps.intel.outputs.result}}"
+        MICROSOFT_RESULTS: "${{steps.microsoft.outputs.result}}"
+        APPLE_RESULTS: "${{steps.apple.outputs.result}}"
+        HUAWEI_RESULTS: "${{steps.huawei.outputs.result}}"
+        CISCO_RESULTS: "${{steps.cisco.outputs.result}}"
+        NOT-VALID-VALUE_RESULTS: "${{steps.not-valid-value.outputs.result}}"
+        REPEAT-TEXT_RESULTS: "${{steps.repeat-text.outputs.result}}"
+        REPEAT-TEXT-INVALID-OPTION_RESULTS: "${{steps.repeat-text-invalid-option.outputs.result}}"
+        LOOP-EXECUTES-ONCE_RESULTS: "${{steps.loop-executes-once.outputs.result}}"
+        LOOP-EXECUTES-2-TIMES_RESULTS: "${{steps.loop-executes-2-times.outputs.result}}"
+        LOOP-EXECUTES-4-TIMES_RESULTS: "${{steps.loop-executes-4-times.outputs.result}}"
+        PYTEST-RUNNING_RESULTS: "${{steps.pytest-running.outputs.result}}"
+      with:
+        runners: mac-text,dashes-text,prompt-text,oracle-test-case,intel,microsoft,apple,huawei,cisco,not-valid-value,repeat-text,repeat-text-invalid-option,loop-executes-once,loop-executes-2-times,loop-executes-4-times,pytest-running
